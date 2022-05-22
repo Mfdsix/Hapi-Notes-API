@@ -10,7 +10,26 @@ const getAllNotesHandler = () => {
     }
 }
 
-const addNoteHandler = (req, h) => {
+const getNoteByIdHandler = (req, h) => {
+    const { id } = req.params
+
+    const note = notes.filter((note) => note.id === id)[0]
+
+    if (note)
+        return {
+            status: 'success',
+            data: {
+                note
+            }
+        }
+
+    return h.response({
+        status: 'fail',
+        message: 'Catatan Tidak Ditemukan'
+    }).code(404)
+}
+
+const addNoteHandler = (req) => {
     const { title, tags, body } = req.payload
 
     const id = nanoid(16)
@@ -40,7 +59,54 @@ const addNoteHandler = (req, h) => {
     }
 }
 
+const editNoteByIdHandler = (req, h) => {
+    const { id } = req.params
+    const { title, tags, body } = req.payload
+    const updatedAt = new Date().toISOString()
+    const noteIndex = notes.findIndex((note) => note.id === id)
+
+    if (noteIndex !== -1) {
+        notes[noteIndex] = {
+            ...notes[noteIndex],
+            title,
+            tags,
+            body,
+            updatedAt
+        }
+        return {
+            status: "success",
+            message: "Catatan berhasil diperbarui"
+        }
+    }
+
+    return h.response({
+        status: 'fail',
+        message: 'Gagal memperbarui catatan. Id catatan tidak ditemukan'
+    }).code(404)
+}
+
+const deleteNoteByIdHandler = (req, h) => {
+    const { id } = req.params
+    const noteIndex = notes.findIndex((note) => note.id === id)
+
+    if (noteIndex !== -1) {
+        notes.splice(noteIndex, 1)
+        return {
+            status: "success",
+            message: "Catatan berhasil dihapus"
+        }
+    }
+
+    return h.response({
+        status: 'fail',
+        message: 'Catatan gagal dihapus. Id catatan tidak ditemukan'
+    }).code(404)
+}
+
 module.exports = {
+    getAllNotesHandler,
+    getNoteByIdHandler,
     addNoteHandler,
-    getAllNotesHandler
+    editNoteByIdHandler,
+    deleteNoteByIdHandler
 }

@@ -1,4 +1,10 @@
-const { addNoteHandler, getAllNotesHandler } = require('./handler')
+const {
+    getAllNotesHandler,
+    getNoteByIdHandler,
+    addNoteHandler,
+    editNoteByIdHandler,
+    deleteNoteByIdHandler
+} = require('./handler')
 
 const routes = [
     {
@@ -14,29 +20,26 @@ const routes = [
     {
         method: 'GET',
         path: '/notes/{id}',
-        handler: (req, h) => {
-            return "hallo"
-        }
+        handler: getNoteByIdHandler
     },
     {
         method: 'PUT',
         path: '/notes/{id}',
-        handler: (req, h) => {
-            return "hallo"
-        }
+        handler: editNoteByIdHandler
     },
     {
         method: 'DELETE',
         path: '/notes/{id}',
-        handler: (req, h) => {
-            return "hallo"
-        }
+        handler: deleteNoteByIdHandler
     },
     {
         method: '*',
         path: '/{any*}',
-        handler: (req, h) => {
-            return "hallo"
+        handler: (_, h) => {
+            return h.response({
+                status: 'fail',
+                message: 'Halaman tidak ditemukan'
+            }).code(404)
         }
     },
 ]
