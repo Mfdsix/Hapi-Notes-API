@@ -1,0 +1,16 @@
+{
+  "name": "hapi-notes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/server.js",
+  "scripts": {
+    "start": "nodemon ./src/server.js",
+    "lint": "eslint ./src/"
+  },
+  "author": "mfdsix",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.16.0",
+    "nodemon": "^2.0.16"
+  }
+}
