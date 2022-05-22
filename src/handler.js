@@ -1,6 +1,15 @@
 const { nanoid } = require('nanoid')
 const notes = require('./notes')
 
+const getAllNotesHandler = () => {
+    return {
+        status: 'success',
+        data: {
+            notes
+        }
+    }
+}
+
 const addNoteHandler = (req, h) => {
     const { title, tags, body } = req.payload
 
@@ -32,5 +41,6 @@ const addNoteHandler = (req, h) => {
 }
 
 module.exports = {
-    addNoteHandler
+    addNoteHandler,
+    getAllNotesHandler
 }
