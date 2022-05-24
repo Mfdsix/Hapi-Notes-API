@@ -29,7 +29,7 @@ const getNoteByIdHandler = (req, h) => {
     }).code(404)
 }
 
-const addNoteHandler = (req) => {
+const addNoteHandler = (req, h) => {
     const { title, tags, body } = req.payload
 
     const id = nanoid(16)
@@ -47,13 +47,13 @@ const addNoteHandler = (req) => {
 
     notes.push(newNote)
     const isSuccess = notes.filter(note => note.id == id).length > 0
-    return isSuccess ? {
+    return isSuccess ? h.response({
         status: "success",
         message: "Catatan berhasil ditambahkan",
         data: {
             noteId: id,
         }
-    } : {
+    }).code(201) : {
         status: "error",
         message: "Catatan gagal untuk ditambahkan"
     }
